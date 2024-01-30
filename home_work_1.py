@@ -1,4 +1,4 @@
-from scipy.constants import pi, epsilon_0, electron_volt, elementary_charge
+from scipy.constants import pi, epsilon_0, electron_volt, elementary_charge, proton_mass
 
 
 def question_1():
@@ -57,4 +57,44 @@ def question_1():
         print(f'N_Debye = {N_Debye(variation["n"], variation["kT"])} particles\n')
 
 
+print('question 1')
 question_1()
+
+
+def question_5():
+    """
+    Calculate the Larmor radius for a 3.5 MeV He++ particle in an 8 Tesla DT fusion reaction.
+    assume that V_|| is negligible.
+    :return:
+    """
+
+    def r_Larmor(E, A, Z, B):
+        """
+        The Larmor radius
+        :param E: particle energy [eV]
+        :param A: particle mass [a.e.m.]
+        :param Z: particle charge [e]
+        :param B: magnetic field [Tl]
+        :return: r_Larmor [m]
+        """
+        E_J = E * electron_volt
+        M_kg = A * proton_mass
+        Q_C = Z * elementary_charge
+        r = (2 * E_J * M_kg) ** 0.5 / Q_C / B
+        return r
+
+    variation_dict = {
+        'alpha particle fusion plasma': {
+            'E': 3.5e6,
+            'A': 4,
+            'Z': 2,
+            'B': 8
+        }
+    }
+    for key, variation in variation_dict.items():
+        print(f'{key}:\nE = {variation["E"]} eV; A = {variation["A"]}; Z = {variation["Z"]}; B = {variation["B"]} Tl;')
+        print(f'r_Larmor = {r_Larmor(variation["E"], variation["A"], variation["Z"], variation["B"])} m')
+
+
+print('question 5')
+question_5()
