@@ -61,6 +61,25 @@ print('question 1')
 question_1()
 
 
+def question_3():
+    """
+    consider plasma with electron density of n_e = 1e10 cm^-3 and electron temperature of 1 eV. electrons are much warmer than ions.
+    """
+
+    def r_ee(n_e):
+        """
+        inter-electron distance in plasma
+        :param n_e:
+        electron density [cm^-3]
+        :return:
+        inter-electron distance [m]
+        """
+        return (n_e ** (-1 / 3)) * 1e-2
+
+
+
+
+
 def question_5():
     """
     Calculate the Larmor radius for a 3.5 MeV He++ particle in an 8 Tesla DT fusion reaction.
