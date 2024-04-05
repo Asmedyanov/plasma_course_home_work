@@ -52,9 +52,9 @@ def question_1():
         }
     }
     for key, variation in variation_dict.items():
-        print(f'{key}:\nn = {variation["n"]} 1/m^3; kT = {variation["kT"]} eV')
-        print(f'r_Debye = {r_Debye(variation["n"], variation["kT"])} m')
-        print(f'N_Debye = {N_Debye(variation["n"], variation["kT"])} particles\n')
+        print(f'{key}:\nn = {variation["n"]:3.2e} 1/m^3; kT = {variation["kT"]:3.2e} eV')
+        print(f'r_Debye = {r_Debye(variation["n"], variation["kT"]):3.2e} m')
+        print(f'N_Debye = {N_Debye(variation["n"], variation["kT"]):3.2e} particles\n')
 
 
 print('question 1')
@@ -70,14 +70,62 @@ def question_3():
         """
         inter-electron distance in plasma
         :param n_e:
-        electron density [cm^-3]
+        electron density [m^-3]
         :return:
         inter-electron distance [m]
         """
-        return (n_e ** (-1 / 3)) * 1e-2
+        return n_e ** (-1 / 3)
+
+    def E_field(n_e):
+        """
+        :param n_e:
+        electron density [m^-3]
+        :return:
+        electric field [V/m]
+        """
+        ret = elementary_charge * n_e * r_ee(n_e) / (2.0 * epsilon_0)
+        return ret
+
+    def W_potential(n_e):
+        """
+        :param n_e:
+        electron density [m^-3]
+        :return:
+        potential energy [J/m^3]
+        """
+        ret = elementary_charge * n_e * E_field(n_e) * r_ee(n_e)
+        return ret
+
+    def W_kinetic(n_e, T_e):
+        """
+
+        :param n_e:
+        electron density [m^-3]
+        :param T_e:
+        electron temperature [eV]
+        :return:
+        """
+        ret = 3 / 2 * n_e * T_e * electron_volt
+        return ret
+
+    variation_dict = {
+        'Question 3': {
+            'n_e': 1.0e16,  # m^-3
+            'kT': 1.0,  # eV
+        },
+    }
+    for key, variation in variation_dict.items():
+        print(f'{key}:\nn = {variation["n_e"]:3.2e} 1/m^3; kT = {variation["kT"]:3.2e} eV')
+        print(f'r_ee = {r_ee(variation["n_e"]):3.2e} m')
+        print(f'E_field = {E_field(variation["n_e"]):3.2e} V/m\n')
+        print(f'W_potential = {W_potential(variation["n_e"]):3.2e} J/m^3\n')
+        print(f'W_kinetic = {W_kinetic(variation["n_e"], variation["kT"]):3.2e} J/m^3\n')
+        print(
+            f'W_kinetic/W_potential = {W_kinetic(variation["n_e"], variation["kT"]) / W_potential(variation["n_e"]):3.2e} J/m^3\n')
 
 
-
+print('Question 3')
+question_3()
 
 
 def question_5():
@@ -111,8 +159,9 @@ def question_5():
         }
     }
     for key, variation in variation_dict.items():
-        print(f'{key}:\nE = {variation["E"]} eV; A = {variation["A"]}; Z = {variation["Z"]}; B = {variation["B"]} Tl;')
-        print(f'r_Larmor = {r_Larmor(variation["E"], variation["A"], variation["Z"], variation["B"])} m')
+        print(
+            f'{key}:\nE = {variation["E"]:3.2e} eV; A = {variation["A"]:3.2e}; Z = {variation["Z"]:3.2e}; B = {variation["B"]:3.2e} Tl;')
+        print(f'r_Larmor = {r_Larmor(variation["E"], variation["A"], variation["Z"], variation["B"]):3.2e} m')
 
 
 print('question 5')
